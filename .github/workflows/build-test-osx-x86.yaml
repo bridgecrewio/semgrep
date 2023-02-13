@@ -3,6 +3,10 @@ name: build-test-osx-x86
 on:
   workflow_dispatch:
   workflow_call:
+  pull_request:
+  push:
+    branches:
+      - develop
 
 jobs:
   build-core-osx:
