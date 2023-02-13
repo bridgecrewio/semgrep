@@ -55,6 +55,8 @@ jobs:
       [
         # build-test-docker,
         build-test-manylinux-x86,
+        build-test-osx-x86,
+        build-test-osx-m1,
         build-test-ubuntu-16-04,
       ]
     steps:
@@ -176,6 +178,14 @@ jobs:
           GITHUB_TOKEN: "${{ steps.token.outputs.token }}"
         run: |
           gh release --repo returntocorp/semgrep-interfaces edit ${{ steps.get-version.outputs.VERSION }} --draft=false
+
+  build-test-osx-x86:
+    uses: ./.github/workflows/build-test-osx-x86.yaml
+    secrets: inherit
+
+  build-test-osx-m1:
+    uses: ./.github/workflows/build-test-osx-m1.yaml
+    secrets: inherit
 
   # build-test-docker:
   #   uses: ./.github/workflows/build-test-docker.yaml
