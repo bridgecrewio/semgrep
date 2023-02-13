@@ -48,18 +48,18 @@ jobs:
             echo "Setting dry-run to FALSE"
           fi
 
-  wait-for-build-test:
-    name: Wait for Build/Test All Platforms
-    runs-on: ubuntu-22.04
-    needs:
-      [
-        # build-test-docker,
-        # build-test-manylinux-x86,
-        # build-test-ubuntu-16-04,
-      ]
-    steps:
-      - name: Continue
-        run: echo "All Platforms have been built and tested - proceeding!"
+  # wait-for-build-test:
+  #   name: Wait for Build/Test All Platforms
+  #   runs-on: ubuntu-22.04
+  #   needs:
+  #     [
+  #       # build-test-docker,
+  #       # build-test-manylinux-x86,
+  #       # build-test-ubuntu-16-04,
+  #     ]
+  #   steps:
+  #     - name: Continue
+  #       run: echo "All Platforms have been built and tested - proceeding!"
 
   create-release:
     name: Create the Github Release
@@ -261,7 +261,7 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}
-          # skip_existing: true
+          skip_existing: true
       # - name: Publish to test Pypi
       #   uses: pypa/gh-action-pypi-publish@master
       #   if: ${{ contains(github.ref,'-test-release') }}
