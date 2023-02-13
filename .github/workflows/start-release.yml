@@ -359,9 +359,9 @@ jobs:
       [
         release-setup,
         validate-release-trigger,
-        bump-semgrep-action,
-        bump-semgrep-rpc,
-        bump-semgrep-app,
+        # bump-semgrep-action,
+        # bump-semgrep-rpc,
+        # bump-semgrep-app,
       ]
     name: Notify of Success
     runs-on: ubuntu-20.04
