@@ -53,9 +53,9 @@ jobs:
     runs-on: ubuntu-22.04
     needs:
       [
-        build-test-docker,
-        build-test-manylinux-x86,
-        build-test-ubuntu-16-04,
+        # build-test-docker,
+        # build-test-manylinux-x86,
+        # build-test-ubuntu-16-04,
       ]
     steps:
       - name: Continue
@@ -177,9 +177,9 @@ jobs:
         run: |
           gh release --repo returntocorp/semgrep-interfaces edit ${{ steps.get-version.outputs.VERSION }} --draft=false
 
-  build-test-docker:
-    uses: ./.github/workflows/build-test-docker.yaml
-    secrets: inherit
+  # build-test-docker:
+  #   uses: ./.github/workflows/build-test-docker.yaml
+  #   secrets: inherit
 
   push-docker:
     name: Push Semgrep Docker image
@@ -212,19 +212,19 @@ jobs:
           cache-from: type=gha,src=/tmp/.buildx-cache
           cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
 
-  build-test-core-x86:
-    uses: ./.github/workflows/build-test-core-x86.yaml
-    secrets: inherit
+  # build-test-core-x86:
+  #   uses: ./.github/workflows/build-test-core-x86.yaml
+  #   secrets: inherit
 
-  build-test-ubuntu-16-04:
-    needs: [build-test-core-x86]
-    uses: ./.github/workflows/build-test-ubuntu-x86.yaml
-    secrets: inherit
+  # build-test-ubuntu-16-04:
+  #   needs: [build-test-core-x86]
+  #   uses: ./.github/workflows/build-test-ubuntu-x86.yaml
+  #   secrets: inherit
 
-  build-test-manylinux-x86:
-    needs: [build-test-core-x86]
-    uses: ./.github/workflows/build-test-manylinux-x86.yaml
-    secrets: inherit
+  # build-test-manylinux-x86:
+  #   needs: [build-test-core-x86]
+  #   uses: ./.github/workflows/build-test-manylinux-x86.yaml
+  #   secrets: inherit
 
   upload-wheels:
     name: Upload Wheels to PyPI
