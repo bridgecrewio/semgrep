@@ -55,8 +55,6 @@ jobs:
       [
         build-test-docker,
         build-test-manylinux-x86,
-        build-test-osx-x86,
-        build-test-osx-m1,
         build-test-ubuntu-16-04,
       ]
     steps:
@@ -213,14 +211,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha,src=/tmp/.buildx-cache
           cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
-
-  build-test-osx-x86:
-    uses: ./.github/workflows/build-test-osx-x86.yaml
-    secrets: inherit
-
-  build-test-osx-m1:
-    uses: ./.github/workflows/build-test-osx-m1.yaml
-    secrets: inherit
 
   build-test-core-x86:
     uses: ./.github/workflows/build-test-core-x86.yaml
