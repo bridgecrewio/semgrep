@@ -56,7 +56,7 @@ jobs:
         # build-test-docker,
         build-test-manylinux-x86,
         build-test-osx-x86,
-        # build-test-osx-m1,
+        build-test-osx-m1,
         build-test-ubuntu-16-04,
       ]
     steps:
@@ -183,9 +183,9 @@ jobs:
     uses: ./.github/workflows/build-test-osx-x86.yaml
     secrets: inherit
 
-  # build-test-osx-m1:
-  #   uses: ./.github/workflows/build-test-osx-m1.yaml
-  #   secrets: inherit
+  build-test-osx-m1:
+    uses: ./.github/workflows/build-test-osx-m1.yaml
+    secrets: inherit
 
   # build-test-docker:
   #   uses: ./.github/workflows/build-test-docker.yaml

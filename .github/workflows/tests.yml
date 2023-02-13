@@ -475,9 +475,9 @@ jobs:
     uses: ./.github/workflows/build-test-osx-x86.yaml
     secrets: inherit
 
-  # build-test-osx-m1:
-  #   uses: ./.github/workflows/build-test-osx-m1.yaml
-  #   secrets: inherit
+  build-test-osx-m1:
+    uses: ./.github/workflows/build-test-osx-m1.yaml
+    secrets: inherit
 
   build-test-ubuntu-16-04:
     needs: [build-test-core-x86]
