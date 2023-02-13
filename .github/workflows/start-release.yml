@@ -30,23 +30,23 @@ jobs:
       pr-number: ${{ steps.open-pr.outputs.pr-number }}
       release-branch: ${{ steps.release-branch.outputs.release-branch }}
     steps:
-      - name: Get JWT for semgrep-ci GitHub App
-        id: jwt
-        uses: docker://public.ecr.aws/y9k7q4m1/devops/cicd:latest
-        env:
-          EXPIRATION: 600 # seconds
-          ISSUER: ${{ secrets.SEMGREP_CI_APP_ID }} # semgrep-ci GitHub App id
-          PRIVATE_KEY: ${{ secrets.SEMGREP_CI_APP_KEY }}
-      - name: Get token for semgrep-ci GitHub App
-        id: token
-        run: |
-          TOKEN="$(curl -X POST \
-          -H "Authorization: Bearer ${{ steps.jwt.outputs.jwt }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          "https://api.github.com/app/installations/${{ secrets.SEMGREP_CI_APP_INSTALLATION_ID }}/access_tokens" | \
-          jq -r .token)"
-          echo "::add-mask::$TOKEN"
-          echo "::set-output name=token::$TOKEN"
+      # - name: Get JWT for semgrep-ci GitHub App
+      #   id: jwt
+      #   uses: docker://public.ecr.aws/y9k7q4m1/devops/cicd:latest
+      #   env:
+      #     EXPIRATION: 600 # seconds
+      #     ISSUER: ${{ secrets.SEMGREP_CI_APP_ID }} # semgrep-ci GitHub App id
+      #     PRIVATE_KEY: ${{ secrets.SEMGREP_CI_APP_KEY }}
+      # - name: Get token for semgrep-ci GitHub App
+      #   id: token
+      #   run: |
+      #     TOKEN="$(curl -X POST \
+      #     -H "Authorization: Bearer ${{ steps.jwt.outputs.jwt }}" \
+      #     -H "Accept: application/vnd.github.v3+json" \
+      #     "https://api.github.com/app/installations/${{ secrets.SEMGREP_CI_APP_INSTALLATION_ID }}/access_tokens" | \
+      #     jq -r .token)"
+      #     echo "::add-mask::$TOKEN"
+      #     echo "::set-output name=token::$TOKEN"
       - name: Check out code
         uses: actions/checkout@v3
         id: checkout
@@ -121,33 +121,33 @@ jobs:
           git add --all
           git commit -m "chore: Bump version to ${SEMGREP_RELEASE_NEXT_VERSION}"
           git push --set-upstream origin ${{ steps.release-branch.outputs.release-branch }}
-      - name: Create PR
-        id: open-pr
-        env:
-          SOURCE: "${{ steps.release-branch.outputs.release-branch }}"
-          TARGET: "${{ github.event.repository.default_branch }}"
-          TITLE: "Release Version ${{ steps.next-version.outputs.next-version }}"
-          GITHUB_TOKEN: ${{ steps.token.outputs.token }}
-        run: |
-          # check if the branch already has a pull request open
+      # - name: Create PR
+      #   id: open-pr
+      #   env:
+      #     SOURCE: "${{ steps.release-branch.outputs.release-branch }}"
+      #     TARGET: "${{ github.event.repository.default_branch }}"
+      #     TITLE: "Release Version ${{ steps.next-version.outputs.next-version }}"
+      #     GITHUB_TOKEN: ${{ steps.token.outputs.token }}
+      #   run: |
+      #     # check if the branch already has a pull request open
 
-          if gh pr list --head ${SOURCE} | grep -vq "no pull requests"; then
-              # pull request already open
-              echo "pull request from SOURCE ${SOURCE} to TARGET ${TARGET} is already open";
-              echo "cancelling release"
-              exit 1
-          fi
+      #     if gh pr list --head ${SOURCE} | grep -vq "no pull requests"; then
+      #         # pull request already open
+      #         echo "pull request from SOURCE ${SOURCE} to TARGET ${TARGET} is already open";
+      #         echo "cancelling release"
+      #         exit 1
+      #     fi
 
-          # open new pull request with the body of from the local template.
-          PR_URL=$(gh pr create --title "${TITLE}" --body-file ./.github/PULL_REQUEST_TEMPLATE/release_pr_template.md \
-            --base "${TARGET}" --head "${SOURCE}")
+      #     # open new pull request with the body of from the local template.
+      #     PR_URL=$(gh pr create --title "${TITLE}" --body-file ./.github/PULL_REQUEST_TEMPLATE/release_pr_template.md \
+      #       --base "${TARGET}" --head "${SOURCE}")
 
-          echo $PR_URL
+      #     echo $PR_URL
 
-          #GH actions doesn't provide an easy way to determine this, so we capture the number and go from there.
-          PR_NUMBER=$(echo $PR_URL | sed 's|.*pull/\(.*\)|\1|')
+      #     #GH actions doesn't provide an easy way to determine this, so we capture the number and go from there.
+      #     PR_NUMBER=$(echo $PR_URL | sed 's|.*pull/\(.*\)|\1|')
 
-          echo "::set-output name=pr-number::$PR_NUMBER"
+      #     echo "::set-output name=pr-number::$PR_NUMBER"
 
   wait-for-pr-checks:
     name: Wait for PR Checks
