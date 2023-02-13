@@ -103,14 +103,14 @@ jobs:
         with:
           name: release_body_${{ steps.next-version.outputs.next-version }}
           path: scripts/release/release_body.txt
-      - name: Update Changelog
-        working-directory: scripts/release
-        run: |
-          pip3 install pipenv==2022.6.7
-          pipenv install --dev
-          pipenv run towncrier build --yes --version ${{ steps.next-version.outputs.next-version }}
-          # use || true since modifications mean exit code != 0
-          pipenv run pre-commit run --files ../../CHANGELOG.md --config ../../.pre-commit-config.yaml || true
+      # - name: Update Changelog
+      #   working-directory: scripts/release
+      #   run: |
+      #     pip3 install pipenv==2022.6.7
+      #     pipenv install --dev
+      #     pipenv run towncrier build --yes --version ${{ steps.next-version.outputs.next-version }}
+      #     # use || true since modifications mean exit code != 0
+      #     pipenv run pre-commit run --files ../../CHANGELOG.md --config ../../.pre-commit-config.yaml || true
       - name: Push release branch
         id: push-release-branch
         env:
@@ -127,7 +127,7 @@ jobs:
           SOURCE: "${{ steps.release-branch.outputs.release-branch }}"
           TARGET: "${{ github.event.repository.default_branch }}"
           TITLE: "Release Version ${{ steps.next-version.outputs.next-version }}"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           # check if the branch already has a pull request open
 
@@ -159,7 +159,7 @@ jobs:
       - name: Wait for checks to register
         id: register-checks
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           LEN_CHECKS=$(gh pr -R bridgecrewio/semgrep view "${{ needs.release-setup.outputs.pr-number }}" --json statusCheckRollup --jq '.statusCheckRollup | length');
 
