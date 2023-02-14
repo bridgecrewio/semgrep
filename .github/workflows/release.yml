@@ -66,11 +66,7 @@ jobs:
   wait-for-build-test:
     name: Wait for Build/Test All Platforms
     runs-on: ubuntu-22.04
-    needs:
-      [
-        build-test-manylinux-x86,
-        build-test-ubuntu-16-04,
-      ]
+    needs: [build-test-manylinux-x86, build-test-ubuntu-16-04]
     steps:
       - name: Continue
         run: echo "All Platforms have been built and tested - proceeding!"
