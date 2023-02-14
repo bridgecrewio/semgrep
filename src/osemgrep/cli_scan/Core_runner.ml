@@ -214,7 +214,7 @@ let invoke_semgrep_core (conf : conf) (all_rules : Rule.t list)
           skipped_rules = None;
           explanations = None;
           time = None;
-          stats = { okfiles = 0; errorfiles = 0; aaa = 0 };
+          stats = { okfiles = 0; errorfiles = 0 };
         }
       in
       { core; hrules = Rule.hrules_of_rules all_rules; scanned = Set_.empty }
