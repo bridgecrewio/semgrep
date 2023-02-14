@@ -55,8 +55,8 @@ jobs:
       [
         # build-test-docker,
         build-test-manylinux-x86,
-        build-test-osx-x86,
-        build-test-osx-m1,
+        # build-test-osx-x86,
+        # build-test-osx-m1,
         build-test-ubuntu-16-04,
       ]
     steps:
@@ -83,12 +83,12 @@ jobs:
             sleep 5
           done
       # OSX
-      - uses: actions/download-artifact@v3
-        with:
-          name: semgrep-osx-${{ github.sha }}
-          path: semgrep-osx
-      - name: Compute checksum
-        run: cat ./semgrep-osx/artifacts.zip | sha256sum > ./semgrep-osx/artifacts.zip.sha256
+      # - uses: actions/download-artifact@v3
+      #   with:
+      #     name: semgrep-osx-${{ github.sha }}
+      #     path: semgrep-osx
+      # - name: Compute checksum
+      #   run: cat ./semgrep-osx/artifacts.zip | sha256sum > ./semgrep-osx/artifacts.zip.sha256
       - name: Upload Release Asset
         id: upload-release-asset-osx
         env:
@@ -179,13 +179,13 @@ jobs:
   #       run: |
   #         gh release --repo returntocorp/semgrep-interfaces edit ${{ steps.get-version.outputs.VERSION }} --draft=false
 
-  build-test-osx-x86:
-    uses: ./.github/workflows/build-test-osx-x86.yaml
-    secrets: inherit
+  # build-test-osx-x86:
+  #   uses: ./.github/workflows/build-test-osx-x86.yaml
+  #   secrets: inherit
 
-  build-test-osx-m1:
-    uses: ./.github/workflows/build-test-osx-m1.yaml
-    secrets: inherit
+  # build-test-osx-m1:
+  #   uses: ./.github/workflows/build-test-osx-m1.yaml
+  #   secrets: inherit
 
   # build-test-docker:
   #   uses: ./.github/workflows/build-test-docker.yaml
@@ -247,11 +247,11 @@ jobs:
         with:
           name: manylinux-wheel
           path: manylinux-wheel
-      - name: Download Osx Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: osx-wheel
-          path: osx-wheel
+      # - name: Download Osx Artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: osx-wheel
+      #     path: osx-wheel
       # - name: Download Artifact
       #   uses: actions/download-artifact@v3
       #   with:
@@ -259,9 +259,9 @@ jobs:
       #     path: m1-wheel
       - name: Unzip
         run: unzip ./manylinux-wheel/dist.zip
-      - name: Unzip OSX Wheel
-        # Don't unzip tar.gz because it already exists from ./manylinux-wheel/dist.zip.
-        run: unzip ./osx-wheel/dist.zip "*.whl"
+      # - name: Unzip OSX Wheel
+      #   # Don't unzip tar.gz because it already exists from ./manylinux-wheel/dist.zip.
+      #   run: unzip ./osx-wheel/dist.zip "*.whl"
       # - name: Unzip M1 Wheel
       #   # Don't unzip tar.gz because it already exists from ./manylinux-wheel/dist.zip.
       #   run: unzip ./m1-wheel/dist.zip "*.whl"
