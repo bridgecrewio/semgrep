@@ -245,6 +245,7 @@
   ],
   "stats": {
     "okfiles": 158,
-    "errorfiles": 2
+    "errorfiles": 2,
+    "aaa": 2
   }
 }
