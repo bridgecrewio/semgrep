@@ -56,6 +56,6 @@
  * shared library.
  *)
 
-print_endline "hello world"
-let () = print_endline "hello world"
+(* print_endline "hello world"
+let () = print_endline "hello world" *)
 let () = Core_CLI.main Sys.argv
