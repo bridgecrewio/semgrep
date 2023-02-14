@@ -48,17 +48,25 @@ jobs:
             echo "Setting dry-run to FALSE"
           fi
 
+  # wait-for-build-test:
+  #   name: Wait for Build/Test All Platforms
+  #   runs-on: ubuntu-22.04
+  #   needs:
+  #     [
+  #       build-test-docker,
+  #       build-test-manylinux-x86,
+  #       build-test-osx-x86,
+  #       build-test-osx-m1,
+  #       build-test-ubuntu-16-04,
+  #     ]
+  #   steps:
+  #     - name: Continue
+  #       run: echo "All Platforms have been built and tested - proceeding!"
+
   wait-for-build-test:
     name: Wait for Build/Test All Platforms
     runs-on: ubuntu-22.04
     needs:
-      # [
-      #   build-test-docker,
-      #   build-test-manylinux-x86,
-      #   build-test-osx-x86,
-      #   build-test-osx-m1,
-      #   build-test-ubuntu-16-04,
-      # ]
       [
         build-test-manylinux-x86,
         build-test-ubuntu-16-04,
@@ -66,6 +74,7 @@ jobs:
     steps:
       - name: Continue
         run: echo "All Platforms have been built and tested - proceeding!"
+
 
   # create-release:
   #   name: Create the Github Release
