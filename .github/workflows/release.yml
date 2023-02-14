@@ -52,11 +52,15 @@ jobs:
     name: Wait for Build/Test All Platforms
     runs-on: ubuntu-22.04
     needs:
+      # [
+      #   build-test-docker,
+      #   build-test-manylinux-x86,
+      #   build-test-osx-x86,
+      #   build-test-osx-m1,
+      #   build-test-ubuntu-16-04,
+      # ]
       [
-        # build-test-docker,
         build-test-manylinux-x86,
-        # build-test-osx-x86,
-        # build-test-osx-m1,
         build-test-ubuntu-16-04,
       ]
     steps:
